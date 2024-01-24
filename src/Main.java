@@ -16,19 +16,22 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
+        //initialize the screen
         Screen screen = new Screen();
         //Eye eye = new Eye(0, 0,5,0,0,screen.getN());//-1 2 5
-        Eye eye = new Eye(-1,2,5,0,0,screen.getN());
+        //initialize the eye
+        Eye eye = new Eye(0,0,5,0,0,screen.getN());
         screen.getFrame().addKeyListener(eye);
 
+        //initialize lists of shapes and lights
         ArrayList<LightSource> lights = new ArrayList<>();
         ArrayList<Shape> shapes = new ArrayList<>();
-        LightSource light1 = new LightSource(-3,2,11,10);
+        LightSource light1 = new LightSource(-2,2,11,10);
         //LightSource light2 = new LightSource(2, 4, 4, 20);
         lights.add(light1);
         //lights.add(light2);
 
-
+        //initialize shapes
         Sphere sphere = new Sphere(new Vector3(0,0,0,"vector"));
         sphere.setMaterial(PhongMaterials.sapphire());
 
@@ -56,11 +59,14 @@ public class Main {
         Sphere boolSphereB = new Sphere(new Vector3(0,0,0,"vector"));
         boolSphereB.setMaterial(PhongMaterials.ruby());
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,boolSphereB);
-        BooleanIntersect lense = new BooleanIntersect(boolSphereA,boolSphereB, "union");
+        BooleanIntersect lense = new BooleanIntersect(boolSphereA,boolSphereB, "intersection");
         lense.setMaterial(PhongMaterials.ruby());
 
         Cube boolCube1 = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
         Formulas.setBasicTransformation(1,1,1,0,-1,0,0,boolCube1);
+        Cube boolCube2 = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
+        Formulas.setBasicTransformation(1,1,1,0,0,0,0,boolCube2);
+
         BooleanIntersect cubething = new BooleanIntersect(boolCube1,boolSphereB, "union");
         cubething.setMaterial(PhongMaterials.cyanRubber());
 
@@ -106,7 +112,7 @@ public class Main {
         cylinder.setInverseTransform(cylinderTransform);
         cylinder.setTransform(cylinderTransform2);*/
 
-
+        //set transformations
        //Formulas.setBasicTransformation(1,1,1,45,-3,1,-8,cube);//-3 2 -5
         Formulas.setBasicTransformation(1,1,1,0,-3,2,-5,cube);
         Formulas.setBasicTransformation(1,1,1,0,-3,2,-1,sphere);
@@ -118,6 +124,7 @@ public class Main {
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,lense);
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,cubething);
 
+        //add shapes to the scene
         //shapes.add(cylinder);
         //shapes.add(sphere);
         //shapes.add(sphere2);
@@ -125,8 +132,10 @@ public class Main {
         //shapes.add(sq);
         //shapes.add(sq2);
         //shapes.add(plane);
-        //shapes.add(lense);
-        shapes.add(cubething);
+        shapes.add(lense);
+        //shapes.add(cubething);
+        //shapes.add(boolSphereB);
+        //shapes.add(boolCube1);
 
         while(true){
             try {

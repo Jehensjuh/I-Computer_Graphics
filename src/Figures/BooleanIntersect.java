@@ -50,8 +50,14 @@ public class BooleanIntersect extends Shape{
         }
         Intersection Aintersection = new Intersection();
         Intersection Bintersection = new Intersection();
-        if(!shapeA.calculateIntersection(ray, Aintersection)||!shapeB.calculateIntersection(ray, Bintersection)){
-            return false;
+        if(booleanOperation.equals("intersection")) {//where both shapes are present
+            if(!shapeA.calculateIntersection(ray, Aintersection)||!shapeB.calculateIntersection(ray, Bintersection)){//if either shape A or shape B miss, it's a miss
+                return false;
+            }
+        }else if(booleanOperation.equals("union")){//where either shapes are present
+            if(!shapeA.calculateIntersection(ray, Aintersection)&&!shapeB.calculateIntersection(ray, Bintersection)){//if both shape A and shape B miss, it's a miss
+                return false;
+            }
         }
         CombineIntersections(Aintersection, Bintersection, intersection, this, this.booleanOperation);
         return true;
@@ -61,19 +67,174 @@ public class BooleanIntersect extends Shape{
         boolean inA = false;
         boolean inB = false;
         boolean intersection = false;
-        /*Intersection means that all hits in the output Intersection have to be hits where hit.isEntering is true for both A and B*/
+        int i =0;
+        //for intersection: always take the hit with smallest hittime. If one list is bigger than the other, ignore the rest of the bigger list
+        /*if(booleanOperation.equals("intersection")){
+            while(i < A.hits.size() && i < B.hits.size()){
+                Hit Ahit = A.hits.get(i);
+                Hit Bhit = B.hits.get(i);
+                inA = Ahit.isEntering;
+                inB = Bhit.isEntering;
+                intersection = inA && inB;
+                if(intersection){
+                    if(Ahit.hitTime < Bhit.hitTime) {
+                        Hit newHit = Ahit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    }else if(Ahit.hitTime > Bhit.hitTime){
+                        Hit newHit = Bhit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    }else{
+                        Hit newHit = Ahit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    }
+                }
+                i++;
+            }
+            //for union: always take the hit with smallest hittime. If one list is bigger than the other, add the rest of the bigger list
+        }else if(booleanOperation.equals("union")){
+            if(A.hits.isEmpty() && !B.hits.isEmpty()){
+                for(Hit Bhit : B.hits){
+                    Bhit.hitShape = booleanIntersect;
+                    output.hits.add(Bhit);
+                }
+            }else if(!A.hits.isEmpty() && B.hits.isEmpty()){
+                for(Hit Ahit : A.hits){
+                    Ahit.hitShape = booleanIntersect;
+                    output.hits.add(Ahit);
+                }
+            }else{
+                if(A.hits.size() > B.hits.size()) {
+                    while (i < B.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Hit Bhit = B.hits.get(i);
+                        inA = Ahit.isEntering;
+                        inB = Bhit.isEntering;
+                        intersection = inA || inB;
+                        if (intersection) {
+                            if (Ahit.hitTime < Bhit.hitTime) {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else if (Ahit.hitTime > Bhit.hitTime) {
+                                Hit newHit = Bhit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            }
+                        }
+                        i++;
+                    }
+                    while (i < A.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Ahit.hitShape = booleanIntersect;
+                        output.hits.add(Ahit);
+                        i++;
+                    }
+                }else if(A.hits.size() < B.hits.size()) {
+                    while (i < A.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Hit Bhit = B.hits.get(i);
+                        inA = Ahit.isEntering;
+                        inB = Bhit.isEntering;
+                        intersection = inA || inB;
+                        if (intersection) {
+                            if (Ahit.hitTime < Bhit.hitTime) {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else if (Ahit.hitTime > Bhit.hitTime) {
+                                Hit newHit = Bhit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            }
+                        }
+                        i++;
+                    }
+                    while (i < B.hits.size()) {
+                        Hit Bhit = B.hits.get(i);
+                        Bhit.hitShape = booleanIntersect;
+                        output.hits.add(Bhit);
+                        i++;
+                    }
+                }else{
+                    while (i < A.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Hit Bhit = B.hits.get(i);
+                        inA = Ahit.isEntering;
+                        inB = Bhit.isEntering;
+                        intersection = inA || inB;
+                        if (intersection) {
+                            if (Ahit.hitTime < Bhit.hitTime) {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else if (Ahit.hitTime > Bhit.hitTime) {
+                                Hit newHit = Bhit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            } else {
+                                Hit newHit = Ahit;
+                                newHit.hitShape = booleanIntersect;
+                                output.hits.add(newHit);
+                            }
+                        }
+                        i++;
+                    }
+                }
+            }
+
+            //for difference: always take the hit with the smallest hittime. If the A list is bigger than the B list, use the rest of the A list. If the B list is bigger than the A list, ignore the rest of the B list
+        }else if(booleanOperation.equals("difference")){
+            while (i < A.hits.size() && i < B.hits.size()) {
+                Hit Ahit = A.hits.get(i);
+                Hit Bhit = B.hits.get(i);
+                inA = Ahit.isEntering;
+                inB = Bhit.isEntering;
+                intersection = inA && !inB;
+                if (intersection) {
+                    if (Ahit.hitTime < Bhit.hitTime) {
+                        Hit newHit = Ahit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    } else if (Ahit.hitTime > Bhit.hitTime) {
+                        Hit newHit = Bhit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    } else {
+                        // Handle equal hit times for "difference"
+                        Hit newHit = Ahit;
+                        newHit.hitShape = booleanIntersect;
+                        output.hits.add(newHit);
+                    }
+                }
+                i++;
+            }
+
+            // Add remaining hits from shapeA, if any
+            while (i < A.hits.size()) {
+                Hit Ahit = A.hits.get(i);
+                Ahit.hitShape = booleanIntersect;
+                output.hits.add(Ahit);
+                i++;
+            }
+        }*/
+
             for(Hit Ahit : A.hits){
                 for(Hit Bhit : B.hits){
-                    if (Ahit.isEntering) {
-                        inA = true;
-                    }else{
-                        inA = false;
-                    }
-                    if(Bhit.isEntering){
-                        inB = true;
-                    }else{
-                        inB = false;
-                    }
+
+                    inA = Ahit.isEntering;
+                    inB = Bhit.isEntering;
+
                     if(booleanOperation.equals("intersection")){
                         intersection = inA && inB;
                     }else if(booleanOperation.equals("union")){
@@ -81,6 +242,7 @@ public class BooleanIntersect extends Shape{
                     }else if(booleanOperation.equals("difference")){
                         intersection = inA && !inB;
                     }
+
                     if(intersection){
                         if(Ahit.hitTime < Bhit.hitTime){
                             Hit newHit = Ahit;
