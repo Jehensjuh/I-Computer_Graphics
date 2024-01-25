@@ -69,7 +69,7 @@ public class BooleanIntersect extends Shape{
         boolean intersection = false;
         int i =0;
         //for intersection: always take the hit with smallest hittime. If one list is bigger than the other, ignore the rest of the bigger list
-        /*if(booleanOperation.equals("intersection")){
+        if(booleanOperation.equals("intersection")){
             while(i < A.hits.size() && i < B.hits.size()){
                 Hit Ahit = A.hits.get(i);
                 Hit Bhit = B.hits.get(i);
@@ -227,9 +227,9 @@ public class BooleanIntersect extends Shape{
                 output.hits.add(Ahit);
                 i++;
             }
-        }*/
+        }
 
-            for(Hit Ahit : A.hits){
+            /*for(Hit Ahit : A.hits){
                 for(Hit Bhit : B.hits){
 
                     inA = Ahit.isEntering;
@@ -259,7 +259,7 @@ public class BooleanIntersect extends Shape{
                         }
                     }
                 }
-            }
+            }*/
     }
 
     @Override

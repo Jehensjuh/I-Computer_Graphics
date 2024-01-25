@@ -4,6 +4,7 @@ import MathStuff.Vector3;
 import RayTracing.Intersection;
 import RayTracing.Material;
 import RayTracing.Ray;
+import Textures.Texture;
 
 import java.awt.*;
 
@@ -16,6 +17,8 @@ public abstract class Shape {
     protected Vector3 color;
 
     protected Material material;
+
+    private Texture texture = new Texture("default");
 
     private int priority;
 
@@ -30,6 +33,14 @@ public abstract class Shape {
 
     public void setInverseTransform(double[][] inverseTransformMatrix){
         this.inverseTransformMatrix = inverseTransformMatrix;
+    }
+
+    public void setTexture(String textureType){
+    	this.texture = new Texture(textureType);
+    }
+
+    public Texture getTexture(){
+    	return this.texture;
     }
 
     public int getPriority() {

@@ -67,7 +67,7 @@ public class Main {
         Cube boolCube2 = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,boolCube2);
 
-        BooleanIntersect cubething = new BooleanIntersect(boolCube1,boolSphereB, "union");
+        BooleanIntersect cubething = new BooleanIntersect(boolCube1,boolSphereB, "intersection");
         cubething.setMaterial(PhongMaterials.cyanRubber());
 
 
@@ -124,6 +124,9 @@ public class Main {
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,lense);
         Formulas.setBasicTransformation(1,1,1,0,0,0,0,cubething);
 
+        boolCube1.setTexture("checkerboard");
+        boolCube1.setMaterial(PhongMaterials.jade());
+
         //add shapes to the scene
         //shapes.add(cylinder);
         //shapes.add(sphere);
@@ -132,8 +135,8 @@ public class Main {
         //shapes.add(sq);
         //shapes.add(sq2);
         //shapes.add(plane);
-        shapes.add(lense);
-        //shapes.add(cubething);
+        //shapes.add(lense);
+        shapes.add(cubething);
         //shapes.add(boolSphereB);
         //shapes.add(boolCube1);
 

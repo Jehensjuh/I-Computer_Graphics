@@ -71,8 +71,9 @@ public class PhongShading {
             Vector3 s = Vector3.subtractVector(lightSource.getPosition(), hit.hitPoint, "vector");//distance from hitpoint to lightsource
             s = Vector3.normalise(s, "vector");
             double mDots = Vector3.dotProduct(s, n);//lambert
+            double[] texture = myobject.getTexture().getColor(hit.hitPoint);
             if(mDots > 0.0){
-                Vector3 diffuseColor = new Vector3(mDots*diffuse[0]*lightSource.getColor().getVector()[0], mDots*diffuse[1]*lightSource.getColor().getVector()[1], mDots*diffuse[2]*lightSource.getColor().getVector()[2], "vector");
+                Vector3 diffuseColor = new Vector3(texture[0]*mDots*diffuse[0]*lightSource.getColor().getVector()[0], texture[1]*mDots*diffuse[1]*lightSource.getColor().getVector()[1], texture[2]*mDots*diffuse[2]*lightSource.getColor().getVector()[2], "vector");
                 //komt nog iets van textures
                 //color = Vector3.addVector(color, diffuseColor, "vector");
                 color.addVector(diffuseColor);
