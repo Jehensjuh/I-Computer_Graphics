@@ -58,6 +58,10 @@ public class BooleanIntersect extends Shape{
             if(!shapeA.calculateIntersection(ray, Aintersection)&&!shapeB.calculateIntersection(ray, Bintersection)){//if both shape A and shape B miss, it's a miss
                 return false;
             }
+        }else if(booleanOperation.equals("difference")){
+            if(!shapeA.calculateIntersection(ray, Aintersection)){//if shape A misses it's a miss
+                return false;
+            }
         }
         CombineIntersections(Aintersection, Bintersection, intersection, this, this.booleanOperation);
         return true;
@@ -192,74 +196,49 @@ public class BooleanIntersect extends Shape{
                     }
                 }
             }
-
             //for difference: always take the hit with the smallest hittime. If the A list is bigger than the B list, use the rest of the A list. If the B list is bigger than the A list, ignore the rest of the B list
         }else if(booleanOperation.equals("difference")){
-            while (i < A.hits.size() && i < B.hits.size()) {
-                Hit Ahit = A.hits.get(i);
-                Hit Bhit = B.hits.get(i);
-                inA = Ahit.isEntering;
-                inB = Bhit.isEntering;
-                intersection = inA && !inB;
-                if (intersection) {
-                    if (Ahit.hitTime < Bhit.hitTime) {
-                        Hit newHit = Ahit;
-                        newHit.hitShape = booleanIntersect;
-                        output.hits.add(newHit);
-                    } else if (Ahit.hitTime > Bhit.hitTime) {
-                        Hit newHit = Bhit;
-                        newHit.hitShape = booleanIntersect;
-                        output.hits.add(newHit);
-                    } else {
-                        // Handle equal hit times for "difference"
-                        Hit newHit = Ahit;
-                        newHit.hitShape = booleanIntersect;
-                        output.hits.add(newHit);
-                    }
+            if(!A.hits.isEmpty()&&B.hits.isEmpty()) {
+                for (Hit Ahit : A.hits) {
+                    Ahit.hitShape = booleanIntersect;
+                    output.hits.add(Ahit);
                 }
-                i++;
+            }else{
+                    while (i < A.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Hit Bhit = B.hits.get(i);
+                        inA = Ahit.isEntering;
+                        inB = Bhit.isEntering;
+                        if (inA && !inB) {//als wel in A maar niet in B moet punt worden toegevoegd.
+                            Ahit.hitShape = booleanIntersect;
+                            output.hits.add(Ahit);
+                        }
+                        i++;
+                }
             }
 
-            // Add remaining hits from shapeA, if any
-            while (i < A.hits.size()) {
-                Hit Ahit = A.hits.get(i);
-                Ahit.hitShape = booleanIntersect;
-                output.hits.add(Ahit);
-                i++;
-            }
-        }
 
-            /*for(Hit Ahit : A.hits){
-                for(Hit Bhit : B.hits){
-
-                    inA = Ahit.isEntering;
-                    inB = Bhit.isEntering;
-
-                    if(booleanOperation.equals("intersection")){
-                        intersection = inA && inB;
-                    }else if(booleanOperation.equals("union")){
-                        intersection = inA || inB;
-                    }else if(booleanOperation.equals("difference")){
+            /*if(!A.hits.isEmpty()&&B.hits.isEmpty()) {
+                for (Hit Ahit : A.hits) {
+                    Ahit.hitShape = booleanIntersect;
+                    output.hits.add(Ahit);
+                }
+            }else{
+                    while (i < A.hits.size()) {
+                        Hit Ahit = A.hits.get(i);
+                        Hit Bhit = B.hits.get(i);
+                        inA = Ahit.isEntering;
+                        inB = Bhit.isEntering;
                         intersection = inA && !inB;
-                    }
-
-                    if(intersection){
-                        if(Ahit.hitTime < Bhit.hitTime){
-                            Hit newHit = Ahit;
-                            newHit.hitShape = booleanIntersect;
-                            output.hits.add(newHit);
-                        }else if(Ahit.hitTime > Bhit.hitTime){
-                            Hit newHit = Bhit;
-                            newHit.hitShape = booleanIntersect;
-                            output.hits.add(newHit);
-                        }else{
+                        if (intersection) {//if both are entering we shouldn't do anything. only if A is entering we should write something.
                             Hit newHit = Ahit;
                             newHit.hitShape = booleanIntersect;
                             output.hits.add(newHit);
                         }
+                        i++;
                     }
-                }
             }*/
+        }
     }
 
     @Override

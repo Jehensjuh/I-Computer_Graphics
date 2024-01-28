@@ -20,7 +20,7 @@ public class Plane extends Shape{
         this.setPriority(5);
     }
 
-    @Override
+/*    @Override
     public double calculateNormal() {
         return 0;
     }
@@ -75,5 +75,93 @@ public class Plane extends Shape{
         }else {
             return false;
         }
+    }*/
+@Override
+public double calculateNormal() {
+    return 0;
+}
+
+    @Override
+    public boolean calculateIntersection(Ray rayer, Intersection intersection) {
+        Ray ray = rayer;
+        /*if(this.inverseTransformMatrix != null){
+            //we apply the inverse transformation to the ray
+            ray = Formulas.applyInverseTransformation(this.inverseTransformMatrix, ray);
+        }
+        double denom = ray.getDirection().getVector()[2];//z value
+        if(Math.abs(denom)<0.0001){ //if the ray is parallel to the plane
+            return false;
+        }
+        double q = (ray.getOrigin().getVector()[2]);
+        double time = -q/denom;//hit time
+        if(time <= 0.0){
+            return false; //it lies behind the eye
+        }
+        double hx = ray.getOrigin().getVector()[0] + time*ray.getDirection().getVector()[0];//x value of the hit point
+        double hy = ray.getOrigin().getVector()[1] + time*ray.getDirection().getVector()[1];//y value of the hit point
+
+        Hit hit = new Hit();
+        hit.hitTime = time;
+        hit.hitShape = this;
+        hit.isEntering = true;
+        hit.surface = 0;
+        Vector3 point = new Vector3(hx,hy,0,"point");
+        hit.hitPoint = Formulas.applyTransformation(this.transformMatrix, point, "point");
+        Vector3 temp = chooseNormal(q);
+        hit.normal = Formulas.applyTransformation(this.transformMatrix, temp, "vector");
+        hit.usedRay = ray;
+        intersection.hits.add(hit);
+
+        return true;*/
+        if (this.inverseTransformMatrix != null) {
+            // we apply the inverse transformation to the ray
+            ray = Formulas.applyInverseTransformation(this.inverseTransformMatrix, ray);
+        }
+
+        double denom = Vector3.dotProduct(this.normal, ray.getDirection());
+
+        if (Math.abs(denom) < 0.0001) { // if the ray is parallel to the plane
+            return false;
+        }
+
+        double q = Vector3.dotProduct(Vector3.subtractVector(ray.getOrigin(), this.origin, "point"), this.normal);
+        double time = -q / denom; // hit time
+
+        if (time <= 0.0) {
+            return false; // it lies behind the eye
+        }
+        double hx = ray.getOrigin().getVector()[0] + time*ray.getDirection().getVector()[0];//x value of the hit point
+        double hy = ray.getOrigin().getVector()[1] + time*ray.getDirection().getVector()[1];//y value of the hit point
+        double hz = ray.getOrigin().getVector()[2] + time*ray.getDirection().getVector()[2];//z value of the hit point
+        Hit hit = new Hit();
+        hit.hitTime = time;
+        hit.hitShape = this;
+        hit.isEntering = true;
+        hit.surface = 0;
+        Vector3 point = new Vector3(hx,hy,hz,"point");
+        hit.hitPoint = Formulas.applyTransformation(this.transformMatrix, point, "point");
+        Vector3 temp = chooseNormal(q);
+        hit.normal = Formulas.applyTransformation(this.transformMatrix, temp, "vector");
+        hit.usedRay = ray;
+        intersection.hits.add(hit);
+
+        return true;
+    }
+
+    private Vector3 chooseNormal(double q){
+        if(q > 0.0){
+            return new Vector3(0,0,1,"vector");
+        }else{
+            return new Vector3(0,0,-1,"vector");
+        }
+    }
+    @Override
+    public String toString(){
+        return "Square";
+    }
+
+    @Override
+    public boolean isPointOnShape(Vector3 point) {
+        return false;
     }
 }

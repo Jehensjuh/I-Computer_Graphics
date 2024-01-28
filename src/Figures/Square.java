@@ -25,7 +25,7 @@ public class Square extends Shape{
         Ray ray = rayer;
         if(this.inverseTransformMatrix != null){
             //we apply the inverse transformation to the ray
-            ray = Formulas.applyInverseTransformation(this.transformMatrix, ray);
+            ray = Formulas.applyInverseTransformation(this.inverseTransformMatrix, ray);
         }
         double denom = ray.getDirection().getVector()[2];//z value
         if(Math.abs(denom)<0.0001){ //if the ray is parallel to the plane

@@ -7,6 +7,7 @@ import MathStuff.Vector3;
 import RayTracing.*;
 import Visual.Eye;
 import Visual.LightSource;
+import Visual.Scene;
 import Visual.Screen;
 
 import java.awt.*;
@@ -20,125 +21,15 @@ public class Main {
         Screen screen = new Screen();
         //Eye eye = new Eye(0, 0,5,0,0,screen.getN());//-1 2 5
         //initialize the eye
-        Eye eye = new Eye(0,0,5,0,0,screen.getN());
+        Eye eye = new Eye(-2,0,10,0,0,screen.getN());
         screen.getFrame().addKeyListener(eye);
 
         //initialize lists of shapes and lights
         ArrayList<LightSource> lights = new ArrayList<>();
         ArrayList<Shape> shapes = new ArrayList<>();
-        LightSource light1 = new LightSource(-2,2,11,10);
-        //LightSource light2 = new LightSource(2, 4, 4, 20);
-        lights.add(light1);
-        //lights.add(light2);
 
-        //initialize shapes
-        Sphere sphere = new Sphere(new Vector3(0,0,0,"vector"));
-        sphere.setMaterial(PhongMaterials.sapphire());
-
-        Sphere sphere2 = new Sphere(new Vector3(0,0,0,"vector"));
-        sphere2.setMaterial(PhongMaterials.jade());
-
-        Square sq = new Square();
-        sq.setMaterial(PhongMaterials.ruby());
-
-        Square sq2 = new Square();
-        sq2.setMaterial(PhongMaterials.ruby());
-
-        Cube cube = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
-        cube.setMaterial(PhongMaterials.gold());
-
-        Cylinder cylinder = new Cylinder();
-        cylinder.setMaterial(PhongMaterials.ruby());
-
-        Plane plane = new Plane();
-        plane.setMaterial(PhongMaterials.copper());
-
-        Sphere boolSphereA = new Sphere(new Vector3(0,0,0,"vector"));
-        boolSphereA.setMaterial(PhongMaterials.ruby());
-        Formulas.setBasicTransformation(1,1,1,0,-1,0,0,boolSphereA);
-        Sphere boolSphereB = new Sphere(new Vector3(0,0,0,"vector"));
-        boolSphereB.setMaterial(PhongMaterials.ruby());
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,boolSphereB);
-        BooleanIntersect lense = new BooleanIntersect(boolSphereA,boolSphereB, "intersection");
-        lense.setMaterial(PhongMaterials.ruby());
-
-        Cube boolCube1 = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
-        Formulas.setBasicTransformation(1,1,1,0,-1,0,0,boolCube1);
-        Cube boolCube2 = new Cube(new Vector3(0,0,0,"point"), new Vector3(0,0,0,"vector"));
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,boolCube2);
-
-        BooleanIntersect cubething = new BooleanIntersect(boolCube1,boolSphereB, "intersection");
-        cubething.setMaterial(PhongMaterials.cyanRubber());
-
-
-
-//first scale then rotate then translate
-        double[][] tempTransfer = Transformations.inverseTranslationMatrix(0,0,-5);
-        double[][] tempTransfer2 = Transformations.translationMatrix(0,0,-5);
-
-        double[][] sphereTransfer1 = MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(1,3,3),Transformations.inverseScaleMatrix(0.25,0.25,0.25));
-        double[][] sphereTransfer2 = MatrixOperations.multiplication(Transformations.scaleMatrix(0.25,0.25,0.25),Transformations.translationMatrix(1,3,3));
-
-        //double[][] cubeTransfer1 = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(-1,0,-5),Transformations.inversexRotationMatrix(Math.toRadians(45))),Transformations.inverseScaleMatrix(1,1,1));
-        //double[][] cubeTransfer2 = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.scaleMatrix(1,1,1),Transformations.xRotationMatrix(Math.toRadians(45))),Transformations.translationMatrix(-1,0,-5));
-
-        double[][] sqTransform = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(0,0,0),Transformations.inversexRotationMatrix(Math.toRadians(90))),Transformations.inverseScaleMatrix(1,1,1));
-        double[][] sqTransform2 = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.scaleMatrix(1,1,1),Transformations.xRotationMatrix(Math.toRadians(90))),Transformations.translationMatrix(0,0,0));
-
-        double[][] sq2Transform = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(0,1,-5),Transformations.inversexRotationMatrix(Math.toRadians(0))),Transformations.inverseScaleMatrix(1,1,1));
-        double[][] sq2Transform2 = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.scaleMatrix(1,1,1),Transformations.xRotationMatrix(Math.toRadians(0))),Transformations.translationMatrix(0,0,-5));
-
-        double[][] cylinderTransform = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(0,0,0),Transformations.inversexRotationMatrix(Math.toRadians(45))),Transformations.inverseScaleMatrix(1,1,1));
-        double[][] cylinderTransform2 = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.scaleMatrix(1,1,1),Transformations.xRotationMatrix(Math.toRadians(45))),Transformations.translationMatrix(0,0,0));
-
-      /*  sphere.setInverseTransform(tempTransfer);
-        sphere.setTransform(tempTransfer2);
-
-        sphere2.setInverseTransform(sphereTransfer1);
-        sphere2.setTransform(sphereTransfer2);
-
-        sq.setInverseTransform(sqTransform);
-        sq.setTransform(sqTransform2);
-
-        sq2.setInverseTransform(sq2Transform);
-        sq2.setTransform(sq2Transform2);
-
-        //cube.setInverseTransform(cubeTransfer1);
-        //cube.setTransform(cubeTransfer2);
-        Formulas.setBasicTransformation(1,1,1,45,-3,0,-5,cube);
-        //print out the transformation matrix
-
-
-        cylinder.setInverseTransform(cylinderTransform);
-        cylinder.setTransform(cylinderTransform2);*/
-
-        //set transformations
-       //Formulas.setBasicTransformation(1,1,1,45,-3,1,-8,cube);//-3 2 -5
-        Formulas.setBasicTransformation(1,1,1,0,-3,2,-5,cube);
-        Formulas.setBasicTransformation(1,1,1,0,-3,2,-1,sphere);
-        Formulas.setBasicTransformation(1,1,1,0,3,2,-1,sphere2);
-        Formulas.setBasicTransformation(1,1,1,90,3,-1,0,sq);//omdat 90 gedraaid is y en z translatie omgedraaid
-        Formulas.setBasicTransformation(1,1,1,0,2,-2,7,sq2);
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,cylinder);
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,plane);
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,lense);
-        Formulas.setBasicTransformation(1,1,1,0,0,0,0,cubething);
-
-        boolCube1.setTexture("checkerboard");
-        boolCube1.setMaterial(PhongMaterials.jade());
-
-        //add shapes to the scene
-        //shapes.add(cylinder);
-        //shapes.add(sphere);
-        //shapes.add(sphere2);
-        //shapes.add(cube);
-        //shapes.add(sq);
-        //shapes.add(sq2);
-        //shapes.add(plane);
-        //shapes.add(lense);
-        shapes.add(cubething);
-        //shapes.add(boolSphereB);
-        //shapes.add(boolCube1);
+        //first scale then rotate then translate
+        Scene.createScene(lights,shapes,"boolean2");
 
         while(true){
             try {

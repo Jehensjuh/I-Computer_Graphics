@@ -23,7 +23,8 @@ public class Formulas {
     public static void setBasicTransformation(double scaleX, double scaleY, double scaleZ, double angle, double transX, double transY, double transZ, Shape shape){
         //for transformationmatrix first scale then rotation then translation, for inverse transformation matrix first translation then rotation then scale.
         double[][] transformationMatrix = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.scaleMatrix(scaleX, scaleY, scaleZ),Transformations.xRotationMatrix(Math.toRadians(angle))),Transformations.translationMatrix(transX, transY, transZ));
-        double[][] inverseTransformationMatrix = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(transX,transY,transZ),Transformations.inversexRotationMatrix(Math.toRadians(angle))),Transformations.inverseScaleMatrix(scaleX,scaleY,scaleZ));
+        //double[][] inverseTransformationMatrix = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseTranslationMatrix(transX,transY,transZ),Transformations.inversexRotationMatrix(Math.toRadians(angle))),Transformations.inverseScaleMatrix(scaleX,scaleY,scaleZ));
+        double[][] inverseTransformationMatrix = MatrixOperations.multiplication(MatrixOperations.multiplication(Transformations.inverseScaleMatrix(scaleX,scaleY,scaleZ),Transformations.inversexRotationMatrix(Math.toRadians(angle))),Transformations.inverseTranslationMatrix(transX,transY,transZ));
         shape.setTransform(transformationMatrix);
         shape.setInverseTransform(inverseTransformationMatrix);
     }

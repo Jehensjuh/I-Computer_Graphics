@@ -30,6 +30,7 @@ public class PhongShading {
         double shininess = hit.hitShape != null ? hit.hitShape.getMaterial().getShininess() : defaultShininess;
         double transparency = hit.hitShape != null ? hit.hitShape.getMaterial().getTransparency() : defaultTransparency;
 
+
         int maxRayBounce = 40;
         int maxReflectionRayBounce = 20;
         double shinynessThreshold = 0.5;
@@ -71,7 +72,9 @@ public class PhongShading {
             Vector3 s = Vector3.subtractVector(lightSource.getPosition(), hit.hitPoint, "vector");//distance from hitpoint to lightsource
             s = Vector3.normalise(s, "vector");
             double mDots = Vector3.dotProduct(s, n);//lambert
-            double[] texture = myobject.getTexture().getColor(hit.hitPoint);
+            double[] texture = myobject.getTexture().getColor(Formulas.applyTransformation(hit.hitShape.getInverseTransform(), hit.hitPoint, "point"));
+            //System.out.println("point: " + hit.hitPoint.toString()+ "texture "+texture[0]+ " "+texture[1]+ " "+texture[2]);
+
             if(mDots > 0.0){
                 Vector3 diffuseColor = new Vector3(texture[0]*mDots*diffuse[0]*lightSource.getColor().getVector()[0], texture[1]*mDots*diffuse[1]*lightSource.getColor().getVector()[1], texture[2]*mDots*diffuse[2]*lightSource.getColor().getVector()[2], "vector");
                 //komt nog iets van textures
