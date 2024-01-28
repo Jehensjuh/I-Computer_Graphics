@@ -50,10 +50,6 @@ public class Main {
                         eye.setUc(Uc);
                         eye.setVc(Vr);
                         eye.transform();
-                        //eye.slide("forward");
-                        //eye.pitch(Math.toRadians(0));
-                        //eye.yaw(Math.toRadians(0));
-                        //eye.roll(Math.toRadians(90));
                         Vector3 dir = eye.getDirection();
                         Vector3 pos = eye.getPosition();
                         Ray ray = new Ray(pos,dir);
@@ -61,12 +57,6 @@ public class Main {
                         if(!shapes.isEmpty()){
                             for(Shape s : shapes){
                                 if(s.calculateIntersection(ray, inter)){
-                                    /*if(ray.getDirection().getVector()[0]>xValueMax) xValueMax = ray.getDirection().getVector()[0];
-                                    if(ray.getDirection().getVector()[0]<xValueMin) xValueMin = ray.getDirection().getVector()[0];
-                                    if(ray.getDirection().getVector()[1]>yValueMax) yValueMax = ray.getDirection().getVector()[1];
-                                    if(ray.getDirection().getVector()[1]<yValueMin) yValueMin = ray.getDirection().getVector()[1];
-                                    if(ray.getDirection().getVector()[2]>zValueMax) zValueMax = ray.getDirection().getVector()[2];
-                                    if(ray.getDirection().getVector()[2]<zValueMin) zValueMin = ray.getDirection().getVector()[2];*/
                                 }
                             }
                         }
@@ -86,11 +76,6 @@ public class Main {
                         double[] color = PhongShading.shading(usableHit,usedRay, lights, shapes, inter);
 
                         float[] tempcol = new float[]{(float)color[0],(float)color[1],(float)color[2]};
-                /*if(tempcol[1]>1 || tempcol[1]>1 ||tempcol[2]>1){
-                    for(int c = 0; c<tempcol.length; c++){
-                        tempcol[c] = tempcol[c]/255;
-                    }
-                }*/
                         for(int c = 0; c < tempcol.length; c++){
                             tempcol[c] = Math.abs(tempcol[c]);
                             tempcol[c] = Math.min(tempcol[c], 1);
@@ -99,12 +84,6 @@ public class Main {
                         screen.paint(i,j,createdColor);
                     }
                 }
-                /*System.out.println("xValueMax: " + xValueMax+" and xValueMin: "+xValueMin);
-                System.out.println("yValueMax: " + yValueMax+" and yValueMin: "+yValueMin);
-                System.out.println("zValueMax: " + zValueMax+" and zValueMin: "+zValueMin);
-                break;*/
-                //break;
-
             } catch (Exception e) {
                 e.printStackTrace();
             }

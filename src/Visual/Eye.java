@@ -194,7 +194,6 @@ public class Eye implements KeyListener {
                 counterZ++;
             } else if (counterZ == 3){
                 slide("up");
-                System.out.println("Z was pressed 3 times");
                 counterZ = 0;
             }
         }

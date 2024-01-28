@@ -1,7 +1,6 @@
 package RayTracing;
 
 import Figures.Shape;
-import MathStuff.Point;
 import MathStuff.Vector3;
 
 public class Hit {

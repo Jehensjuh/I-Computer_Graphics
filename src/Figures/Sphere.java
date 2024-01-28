@@ -60,9 +60,6 @@ public class Sphere extends Shape {
                 hit.surface = 0;
                 Vector3 point = new Vector3(rayOrigin.getVector()[0] + t1 * rayDirection.getVector()[0], rayOrigin.getVector()[1] + t1 * rayDirection.getVector()[1], rayOrigin.getVector()[2] + t1 * rayDirection.getVector()[2], "point");
                 hit.hitPoint = Formulas.applyTransformation(transformMatrix, point, "point");
-                //Vector3 genericPoint = new Vector3(rayer.getOrigin().getVector()[0]+ t1*rayer.getDirection().getVector()[0], rayer.getOrigin().getVector()[1]+ t1*rayer.getDirection().getVector()[1], rayer.getOrigin().getVector()[2]+ t1*rayer.getDirection().getVector()[2], "point");
-                //System.out.println("hit point: " + point.toString());
-                //hit.normal = Formulas.applyTransformation(transformMatrix, point,"vector");
                 hit.normal = point;
                 hit.usedRay = ray;
                 inter.hits.add(hit);
@@ -79,9 +76,6 @@ public class Sphere extends Shape {
                 hit.surface = 0;
                 Vector3 point = new Vector3(rayOrigin.getVector()[0] + t2 * rayDirection.getVector()[0], rayOrigin.getVector()[1] + t2 * rayDirection.getVector()[1], rayOrigin.getVector()[2] + t2 * rayDirection.getVector()[2], "point");
                 hit.hitPoint = Formulas.applyTransformation(transformMatrix, point,"point");
-                //Vector3 genericPoint = new Vector3(rayer.getOrigin().getVector()[0]+ t2*rayer.getDirection().getVector()[0], rayer.getOrigin().getVector()[1]+ t2*rayer.getDirection().getVector()[1], rayer.getOrigin().getVector()[2]+ t2*rayer.getDirection().getVector()[2], "point");
-                //hit.normal = Formulas.applyTransformation(transformMatrix, point,"vector") ;//origin = (0,0,0) and radius = 1, so the normal is the same as the hitpoint
-                //hit.normal = Formulas.applyTransformation(transformMatrix, point,"vector");
                 hit.normal = point;
                 hit.usedRay = ray;
                 inter.hits.add(hit);

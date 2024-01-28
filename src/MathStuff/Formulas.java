@@ -41,20 +41,10 @@ public class Formulas {
     }
 
     public static Ray applyInverseTransformation(double[][] matrix, Ray ray){
-        //System.out.println("applying inverse transformation using: "+matrix[0][0]+" "+matrix[0][1]+" "+matrix[0][2]+" "+matrix[0][3]);
-        //double[][] tempOrigin = ray.getOrigin().toMatrix();
-        //double[][] tempDirection = ray.getDirection().toMatrix();
         Vector3 origin = ray.getOrigin();
         Vector3 direction = ray.getDirection();
-        //System.out.println("old direction"+direction.toString());
         origin = Vector3.multiply(origin.getVector(),matrix,"point");
         direction = Vector3.multiply(direction.getVector(),matrix,"vector");
-        //tempOrigin = MatrixOperations.multiplication(matrix, tempOrigin);
-        //tempDirection = MatrixOperations.multiplication(matrix, tempDirection);
-        //origin.returnToVector(tempOrigin);
-        //System.out.println("new origin: "+origin.toString());
-        //direction.returnToVector(tempDirection);
-        //System.out.println("new direction: "+direction.toString());
         return new Ray(origin, direction);
     }
 
